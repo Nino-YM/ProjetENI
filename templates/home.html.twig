@@ -1,6 +1,11 @@
-{# templates/home.html.twig #}
+    {# templates/home.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <h1>
+        {% if is_granted("ROLE_ADMIN") %}
+            Ville
+        {% endif %}
+    </h1>
     <h1>Page d'accueil</h1>
-{% endblock %}
+{% endblock %}  
