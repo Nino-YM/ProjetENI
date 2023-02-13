@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Participant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 
 /**
  * @extends ServiceEntityRepository<Participant>
@@ -14,14 +15,16 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Participant[]    findAll()
  * @method Participant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ParticipantRepository extends ServiceEntityRepository
+class ParticipantRepository extends ServiceEntityRepository implements UserLoaderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    public
+    function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Participant::class);
     }
 
-    public function save(Participant $entity, bool $flush = false): void
+    public
+    function save(Participant $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,14 +33,31 @@ class ParticipantRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Participant $entity, bool $flush = false): void
+    public
+    function remove(Participant $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+
     }
+
+    public function loadUserByIdentifier(string $usernameOrEmail): ?Participant
+    {
+    $entityManager = $this->getEntityManager();
+
+    return $entityManager->createQuery(
+        'SELECT u
+                FROM App\Entity\Participant u
+                WHERE u.pseudo = :identifier
+                OR u.mail = :identifier'
+    )
+        ->setParameter('identifier', $usernameOrEmail)
+        ->getOneOrNullResult();
+    }
+
 
 //    /**
 //     * @return Participant[] Returns an array of Participant objects
