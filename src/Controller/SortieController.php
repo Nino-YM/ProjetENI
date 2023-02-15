@@ -7,15 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\Type\SortieType;
-use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Response;
 
 class SortieController extends AbstractController
 {
     #[Route('/creation-sortie', name: 'app_creation_sortie')]
-    public function newAction(EntityManagerInterface $em, Request $request, ManagerRegistry $doctrine)
+    public function newAction(EntityManagerInterface $entityManager, Request $request) :Response
     {
         $form = $this->createForm(SortieType::class, null, [
-            'em' => $doctrine->getManager(),
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -23,8 +22,8 @@ class SortieController extends AbstractController
 
             $sortie->setOrganiseePar($this->getUser());
 
-            $em->persist($sortie);
-            $em->flush();
+            $entityManager->persist($sortie);
+            $entityManager->flush();
             return $this->redirectToRoute('app_home');
         }
 

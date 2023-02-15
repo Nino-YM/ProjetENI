@@ -18,14 +18,6 @@ class SortieType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $em = $options['em'];
-        $campuses = $em->getRepository(Campus::class)->findAll();
-
-        $choices = [];
-        foreach ($campuses as $campus) {
-            $choices[$campus->getNom()] = $campus->getId();
-        }
-
         $builder
             ->add('nom',TextType::class)
             ->add('dateHeureDebut',DateTimeType::class)
