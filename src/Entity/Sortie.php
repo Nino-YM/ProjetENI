@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -18,6 +19,7 @@ class Sortie
 
     #[ORM\Column(length: 50)]
     private ?string $nom = null;
+
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateHeureDebut = null;
@@ -41,6 +43,7 @@ class Sortie
     #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Lieu $lieu = null;
+
 
     #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'sorties')]
     private Collection $participants;
@@ -209,4 +212,8 @@ class Sortie
 
         return $this;
     }
+
+
+
+
 }
