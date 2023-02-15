@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\Type\SortieType;
 use Symfony\Component\HttpFoundation\Response;
+use App\Entity\Sortie;
 
 class SortieController extends AbstractController
 {
@@ -30,5 +31,33 @@ class SortieController extends AbstractController
         return $this->render('sortie/new.html.twig', array(
             'form' => $form->createView()
         ));
+    }
+
+    #[Route('/sortie/{id}', name: 'app_detail_sortie')]
+    public function detailAction(Sortie $sortie) :Response
+    {
+        return $this->render('sortie/detail.html.twig', array(
+            'sortie' => $sortie
+        ));
+    }
+
+    #[Route('/sortie/inscription/{id}', name: 'app_inscription_sortie')]
+    public function inscriptionAction(Sortie $sortie, EntityManagerInterface $entityManager) :Response
+    {
+        $sortie->addParticipant($this->getUser());
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        return $this->render('sortie/inscription.html.twig');
+    }
+
+    #[Route('/sortie/desinscription/{id}', name: 'app_desinscription_sortie')]
+    public function desinscriptionAction(Sortie $sortie, EntityManagerInterface $entityManager) :Response
+    {
+        $sortie->removeParticipant($this->getUser());
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        return $this->render('sortie/desinscription.html.twig');
     }
 }
