@@ -9,7 +9,7 @@ security:
                 class : 'App\Entity\Participant'
     firewalls:
         dev:
-            pattern: ^/(_(phpprofiler|wdt)|css|images|js)/
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
@@ -21,14 +21,6 @@ security:
                 enable_csrf: true
             logout:
                 path: app_logout
-            remember_me:
-                secret: '%kernel.secret%' # required
-                lifetime: 604800 # 1 week in seconds
-                    # by default, the feature is enabled by checking a
-                    # checkbox in the login form (see below), uncomment the
-                    # following line to always enable it.
-                    #always_remember_me: true
-
 
                 # where to redirect after logout
                 # target: app_any_route
