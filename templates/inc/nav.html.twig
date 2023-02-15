@@ -4,6 +4,7 @@
             {% if is_granted("ROLE_ADMIN") %}
                 <a href="{{ path('app_villes') }}" title="Villes">Villes</a>
                 <a href="{{ path('app_campus') }}" title="Campus">Campus</a>
+                <a href="{{ path('app_creation_sortie') }}" title="creation-sortie" style="float: right">Créer une nouvelle sortie</a>
             {% endif %}
             <a href="{{ path('app_home') }}" title="Accueil">Accueil</a>
             <a href="{{ path('app_profil') }}" title="Mon profil">Mon profil</a>
