@@ -3,4 +3,81 @@
 
 {% block body %}
         <h1>Page d'accueil</h1>
+        <table class="table">
+                <thead>
+                <tr>
+                        <th>Nom de la sortie</th>
+                        <th>Date de la sortie</th>
+                        <th>Clôture</th>
+                        <th>Places</th>
+                        <th>Etat</th>
+                        <th>Inscrit</th>
+                        <th>Organisateur</th>
+                        <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for info in infos %}
+                        <tr>
+                                <td class="nom">{{ info.nom }}</td>
+                                <td class="dateHeureDebut">{{ info.dateHeureDebut | date('d/m/y  H:i') }}</td>
+                                <td class="dateLimiteInscription">{{ info.dateLimiteInscription | date('d/m/y') }}</td>
+                                <td class="nbInscriptionsMax">{{ info.nbInscriptionsMax }}</td>
+                                <td class="etat">{{ info.etat.libelle }}</td>
+                                <td class="inscrit">
+                                        <label>
+                                                <input type="checkbox" class="inscription" disabled {% if app.user is not null and info.participants.contains(app.user) %} checked {% endif %}>
+                                        </label>
+                                </td>
+                                <td class="organisateur">{{ info.organiseePar.prenom }} {{ info.organiseePar.nom }}</td>
+                                <td class="actions">
+                                        <a href="{{ path('app_inscription_sortie', {'id': info.id}) }}" class="btn-inscrire">S'inscrire</a>
+                                        <a href="{{ path('app_detail_sortie', {'id': info.id}) }}" class="btn-afficher">Afficher</a>
+                                        <a href="{{ path('app_desinscription_sortie', {'id': info.id}) }}" class="btn-desister">Se désister</a>
+                                        <a href="#" class="btn-modifier">Modifier</a>
+                                </td>
+                        </tr>
+                {% endfor %}
+                </tbody>
+        </table>
+        <style>
+                .table {
+                        border-collapse: collapse;
+                        width: 100%;
+                }
+
+                .table th, .table td {
+                        border: 1px solid #ddd;
+                        padding: 8px;
+                        text-align: center;
+                }
+
+                .table th {
+                        background-color: #f2f2f2;
+                        font-weight: bold;
+                }
+
+                .table td.nom, .table td.dateHeureDebut, .table td.dateLimiteInscription, .table td.nbInscriptionsMax {
+                        text-align: left;
+                }
+
+                .table td.etat {
+                        color: black;
+                        font-weight: bold;
+                        text-align: center;
+                }
+
+
+                .table td.inscrit {
+                        font-weight: bold;
+                }
+
+                .table td.organisateur {
+                        font-style: italic;
+                }
+
+                .table td.actions {
+                        text-align: center;
+                }
+        </style>
 {% endblock %}

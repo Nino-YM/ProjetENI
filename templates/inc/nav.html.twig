@@ -1,14 +1,44 @@
 <nav>
-
-        {% if app.user %}
-            {% if is_granted("ROLE_ADMIN") %}
-                <a href="{{ path('app_villes') }}" title="Villes">Villes</a>
-                <a href="{{ path('app_campus') }}" title="Campus">Campus</a>
-                <a href="{{ path('app_creation_sortie') }}" title="creation-sortie" style="float: right">Créer une nouvelle sortie</a>
-            {% endif %}
-            <a href="{{ path('app_home') }}" title="Accueil">Accueil</a>
-            <a href="{{ path('app_profil') }}" title="Mon profil">Mon profil</a>
-            <a href="{{ path('app_logout') }}" title="Se déconnecter">Se déconnecter</a>
+    {% if app.user %}
+        {% if is_granted("ROLE_ADMIN") %}
+            <a href="{{ path('app_villes') }}" title="Villes">Villes</a>
+            <a href="{{ path('app_campus') }}" title="Campus">Campus</a>
+            <a href="{{ path('app_creation_sortie') }}" title="Créer une nouvelle sortie" style="float: right">Créer une nouvelle sortie</a>
         {% endif %}
-
+        <a href="{{ path('app_home') }}" title="Accueil">Accueil</a>
+        <a href="{{ path('app_profil') }}" title="Mon profil">Mon profil</a>
+        <a href="{{ path('app_logout') }}" title="Se déconnecter">Se déconnecter</a>
+        <a href="javascript:history.back()" title="Retour">Retour</a>
+    {% endif %}
 </nav>
+
+<style>
+    body.nav-styles-enabled nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f8f9fa;
+        padding: 0.5rem;
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    body.nav-styles-enabled nav a {
+        text-decoration: none;
+        color: #212529;
+        padding: 0.5rem;
+        border-radius: 5px;
+    }
+
+    body.nav-styles-enabled nav a:hover {
+        background-color: #e2e6ea;
+    }
+
+    body.nav-styles-enabled nav a.active {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    body.nav-styles-enabled nav a:last-child {
+        margin-right: 0;
+    }
+</style>

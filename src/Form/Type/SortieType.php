@@ -21,7 +21,10 @@ class SortieType extends AbstractType
         $builder
             ->add('nom',TextType::class)
             ->add('dateHeureDebut',DateTimeType::class)
-            ->add('duree',IntegerType::class)
+            ->add('duree', IntegerType::class, [
+                'label' => 'Durée (minutes)',
+                'label_attr' => ['class' => 'duree-label'],
+            ])
             ->add('dateLimiteInscription',DateType::class)
             ->add('nbInscriptionsMax',IntegerType::class)
             ->add('infosSortie',TextType::class)
@@ -29,7 +32,7 @@ class SortieType extends AbstractType
                 'class' => 'App\Entity\Lieu',
                 "choice_label" => function ($allChoices)
                 {
-                    return $allChoices->getNom() . " " . $allChoices->getRue();
+                    return $allChoices->getNom() . " - " . $allChoices->getRue();
                 }
             ))
 

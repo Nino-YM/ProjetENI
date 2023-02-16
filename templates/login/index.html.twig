@@ -1,4 +1,3 @@
-{# templates/login/index.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block body %}
@@ -6,23 +5,107 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('app_login') }}" method="post">
-        <div>
-        <label for="username">Identifiant:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}">
+    <form class="login-form" action="{{ path('app_login') }}" method="post">
+        <div class="form-group">
+            <label for="username">Identifiant:</label>
+            <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}">
         </div>
-        <div>
-        <label for="password">Mot de passe
-            :</label>
-        <input type="password" id="password" name="_password">
+        <div class="form-group">
+            <label for="password">Mot de passe:</label>
+            <input type="password" id="password" name="_password" class="form-control">
         </div>
-        {# If you want to control the URL the user is redirected to on success
-        <input type="hidden" name="_target_path" value="/account"> #}
+        <div class="form-group form-check">
+            <input type="checkbox" name="_remember_me" id="remember_me" class="form-check-input" checked>
+            <label for="remember_me" class="form-check-label">Se souvenir de moi</label>
+        </div>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        <label>
-            <input type="checkbox" name="_remember_me" checked/>
-            Se souvenir de moi
-        </label>
-        <button type="submit">Connexion</button>
+        <button type="submit" class="btn btn-primary">Connexion</button>
     </form>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial;
+            background-color: white;
+            padding: 50px;
+            text-align: center; /* Center the form horizontally */
+        }
+
+        .login-form {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: auto;
+            display: flex; /* Center the form vertically */
+            flex-direction: column; /* Align the child elements vertically */
+            justify-content: center; /* Center the child elements vertically */
+            align-items: center; /* Center the child elements horizontally */
+        }
+
+        .form-control {
+            height: 40px;
+            font-size: 16px;
+            text-align: center;
+            background-color: #ECF0F1;
+            border: 2px solid transparent;
+            border-radius: 3px;
+            font-weight: 200;
+            padding: 10px 0;
+            width: 250px;
+            transition: border .5s;
+        }
+
+        .form-control:focus {
+            border: 2px solid #3498DB;
+            box-shadow: none;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            border: 2px solid transparent;
+            background: #3498DB;
+            color: #ffffff;
+            font-size: 16px;
+            line-height: 25px;
+            padding: 10px 0;
+            text-decoration: none;
+            text-shadow: none;
+            border-radius: 3px;
+            box-shadow: none;
+            transition: 0.25s;
+            display: block;
+            width: 250px;
+            margin: 0 auto;
+        }
+
+        .btn:hover {
+            background-color: #2980B9;
+        }
+
+        .form-check-input {
+            margin-top: 6px;
+            width: 20px;
+            height: 20px;
+            background-color: #eee;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .form-check-input:checked {
+            background-color: #2196F3;
+        }
+    </style>
 {% endblock %}
