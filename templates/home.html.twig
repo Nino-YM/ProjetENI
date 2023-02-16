@@ -31,7 +31,11 @@
                                 </td>
                                 <td class="organisateur">{{ info.organiseePar.prenom }} {{ info.organiseePar.nom }}</td>
                                 <td class="actions">
-                                        <a href="{{ path('app_inscription_sortie', {'id': info.id}) }}" class="btn-inscrire">S'inscrire</a>
+                                        {% if info.participants|length < info.nbInscriptionsMax and "now"|date('Y-m-d') < info.dateLimiteInscription|date('Y-m-d') %}
+                                                <a href="{{ path('app_inscription_sortie', {'id': info.id}) }}" class="btn-inscrire">S'inscrire</a>
+                                        {% else %}
+                                                S'inscrire
+                                        {% endif %}
                                         <a href="{{ path('app_detail_sortie', {'id': info.id}) }}" class="btn-afficher">Afficher</a>
                                         <a href="{{ path('app_desinscription_sortie', {'id': info.id}) }}" class="btn-desister">Se désister</a>
                                         <a href="#" class="btn-modifier">Modifier</a>

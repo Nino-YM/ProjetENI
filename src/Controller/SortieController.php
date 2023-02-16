@@ -44,11 +44,16 @@ class SortieController extends AbstractController
     #[Route('/sortie/inscription/{id}', name: 'app_inscription_sortie')]
     public function inscriptionAction(Sortie $sortie, EntityManagerInterface $entityManager) :Response
     {
-        $sortie->addParticipant($this->getUser());
-        $entityManager->persist($sortie);
-        $entityManager->flush();
+        $today = new \DateTime('now');
+        if(count($sortie->getParticipants()) < $sortie->getNbInscriptionsMax() && $today < $sortie->getDateLimiteInscription()) {
+            $sortie->addParticipant($this->getUser());
+            $entityManager->persist($sortie);
+            $entityManager->flush();
 
-        return $this->render('sortie/inscription.html.twig');
+            return $this->render('sortie/inscription.html.twig');
+        }
+
+        return $this->forward('App\Controller\HomeController::index');
     }
 
     #[Route('/sortie/desinscription/{id}', name: 'app_desinscription_sortie')]
