@@ -11,7 +11,7 @@
                         <th>Clôture</th>
                         <th>Places</th>
                         <th>Etat</th>
-                        <th>Inscrit</th>
+                        <th>Inscrits/Places</th>
                         <th>Organisateur</th>
                         <th>Actions</th>
                 </tr>
@@ -22,7 +22,7 @@
                                 <td class="nom">{{ info.nom }}</td>
                                 <td class="dateHeureDebut">{{ info.dateHeureDebut | date('d/m/y  H:i') }}</td>
                                 <td class="dateLimiteInscription">{{ info.dateLimiteInscription | date('d/m/y') }}</td>
-                                <td class="nbInscriptionsMax">{{ info.nbInscriptionsMax }}</td>
+                                <td class="nbInscriptionsMax">{{ info.participants|length }} / {{ info.nbInscriptionsMax }}</td>
                                 <td class="etat">{{ info.etat.libelle }}</td>
                                 <td class="inscrit">
                                         <label>
