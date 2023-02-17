@@ -12,6 +12,7 @@
         <h2>Téléphone : {{ participant.telephone }}</h2>
         <h2>Email : {{ participant.mail }}</h2>
         <h2>Campus : {{ participant.campus.nom }}</h2>
+        <a href="{{ path('app_modifprofil_participant/{id}', {'id': app.user.id}) }}">Modifier le profil</a>
     </div>
     <style>
         /* Center the content and add some padding */

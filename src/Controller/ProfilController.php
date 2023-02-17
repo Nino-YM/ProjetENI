@@ -79,4 +79,30 @@ class ProfilController extends AbstractController
             'form' => $form->createView()
         ));
     }
+
+    #[Route('/participant/modifprofil/{id}', name: 'app_modifprofil_participant/{id}')]
+    public function modifprofilAction(EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
+    {
+        $participant = $this->getUser();
+        $form = $this->createForm(ParticipantType::class, $participant, [
+            'validation_groups' => ['Default', 'modif'],
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $participant = $form->getData();
+            $participant->setMotPasse(
+                $userPasswordHasher->hashPassword(
+                    $participant,
+                    $form->get('motPasseTexte')->getData()
+                )
+            );
+
+            $entityManager->persist($participant);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_home');
+        }
+        return $this->render('participant/modifprofil.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
 }
