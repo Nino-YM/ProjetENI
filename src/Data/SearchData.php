@@ -7,7 +7,7 @@ class SearchData
 
     public string | null $q = '';
 
-    public array | null $categories = [];
+    public array | null | object | string $categories;
 
     public null | \DateTime $datemax;
 

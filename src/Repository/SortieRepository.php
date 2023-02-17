@@ -67,34 +67,52 @@ class SortieRepository extends ServiceEntityRepository
 //    }
     public function findSearch(SearchData $searchData, Participant $user)
     {
-        $queryBuilder = $this->createQueryBuilder('c');
-        $queryBuilder->leftJoin('c.participants', 'p');
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->leftJoin('c.participants', 'p');
 
-        if (!empty($searchData->inscrit)) {
-            $queryBuilder
-                ->andWhere('p = :user')
+        if ($searchData->inscrit) {
+            $queryBuilder->andWhere(':user MEMBER OF c.participants')
+                ->setParameter('user', $user);
+        }
+        if ($searchData->orga) {
+            $queryBuilder->andWhere(':user = c.organiseePar')
                 ->setParameter('user', $user);
         }
 
-        if (!empty($searchData->noninscrit)) {
-            $queryBuilder
-                ->andWhere($queryBuilder->expr()->notIn('p', ':user'))
-                ->setParameter('user', $user);
+        if ($searchData->passe) {
+            $queryBuilder->andWhere('c.dateHeureDebut < :now')
+                ->setParameter('now', new \DateTime());
         }
 
-        if (!empty($searchData->q)) {
+        if ($searchData->noninscrit) {
+            $queryBuilder->andWhere(':user NOT MEMBER OF c.participants')
+                ->setParameter('user', $user);
+        }
+        if (!empty($searchData->datemin) && !empty($searchData->datemax)) {
             $queryBuilder
-                ->andWhere('c.nom LIKE :q')
+                ->andWhere('c.dateHeureDebut BETWEEN :datemin AND :datemax')
+                ->setParameter('datemin', $searchData->datemin)
+                ->setParameter('datemax', $searchData->datemax);
+        }
+
+        if (!empty($searchData->categories)) {
+            $queryBuilder
+                ->join('c.campus', 'campus')
+                ->andWhere('c.campus IN (:categories)')
+                ->setParameter('categories', $searchData->categories);
+        }
+
+        if ($searchData->q) {
+            $queryBuilder->andWhere('c.nom LIKE :q')
                 ->setParameter('q', '%' . $searchData->q . '%');
         }
 
+        $result = $queryBuilder->getQuery()->getResult();
 
-        return $queryBuilder->getQuery()->getResult();
+        if (empty($result)) {
+            return 'pas de sortie actuellement avec ce campus';
+        }
+
+        return $result;
     }
-
-
-
-
-
-
 }

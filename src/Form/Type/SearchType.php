@@ -24,13 +24,14 @@ class SearchType extends AbstractType
                     'placeholder'=>'Rechercher'
                 ]
             ])
-            ->add('categories', EntityType::class, array(
-                'label'=> false,
-                'required'=> false,
+            ->add('categories', EntityType::class, [
+                'label' => false,
+                'required' => false,
                 'class' => 'App\Entity\Campus',
-                'multiple'=> true,
                 'choice_label' => 'nom'
-            ))
+            ])
+
+
             ->add('datemin',DateType::class, [
                 'label'=> false,
                 'required'=> false,
