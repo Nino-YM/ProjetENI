@@ -8,7 +8,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+
+#[UniqueEntity("mail")]
+#[UniqueEntity("pseudo")]
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -26,12 +30,19 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $telephone = null;
 
+
     #[ORM\Column(length: 50, unique: true)]
     private ?string $mail = null;
 
+
     #[ORM\Column(length: 50, unique: true)]
     private ?string $pseudo = null;
+
+
     #[ORM\Column]
+    /**
+     * Var string The hashed password
+     */
     private ?string $motPasse = null;
 
     #[ORM\Column]

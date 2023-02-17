@@ -1,5 +1,75 @@
-{% extends 'base.html.twig' %}
+{% extends '/base.html.twig' %}
+
+{% block stylesheets %}
+        <link rel="stylesheet" href="/css/style.css">
+{% endblock %}
+
 
 {% block body %}
     <h1>Mon profil</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">Enregister</button>
+    {{ form_end(form) }}
+    <a href="{{ path('app_home') }}" title="Annuler">Annuler</a>
+{#
+        <h2>Pseudo : {{ participant.pseudo }}</h2>
+        <h2>Prénom : {{ participant.prenom }}</h2>
+        <h2>Nom : {{ participant.nom }}</h2>
+        <h2>Téléphone : {{ participant.telephone }}</h2>
+        <h2>Email : {{ participant.mail }}</h2>
+        <h2>Nouveau mot de passe : {{ participant.motPasse }}</h2>
+        <h2>Confirmation : {{ participant.mail }}</h2>
+        <h2>Campus : {{ participant.campus.nom }}</h2>
+#}
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5em;
+        }
+
+        input, select {
+            display: block;
+            width: 100%;
+            padding: 0.5em;
+            margin-bottom: 1em;
+            border: 2px solid #ddd;
+            border-radius: 3px;
+            font-size: 1em;
+        }
+
+        input[type="checkbox"] {
+            display: inline-block;
+            width: auto;
+            margin-right: 0.5em;
+        }
+
+        button[type="submit"] {
+            display: block;
+            padding: 0.5em 1em;
+            margin-top: 1em;
+            border: none;
+            border-radius: 3px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
 {% endblock %}
