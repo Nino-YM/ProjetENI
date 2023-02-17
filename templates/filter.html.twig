@@ -1,0 +1,23 @@
+{{ form_start(form) }}
+    <h2> Filtrer les sorties </h2>
+<h4>Campus</h4>
+{{ form_row(form.categories) }}
+<h4>Le nom de la sortie contient: </h4>
+{{ form_row(form.q) }}
+<h4>Date</h4>
+<div class="row">
+    <div class="col-md-6">
+        <p>Entre</p>{{ form_row(form.datemin) }}
+    </div>
+    <div>
+        <p>et</p> {{ form_row(form.datemax) }}
+    </div>
+</div>
+
+<h4>Autres filtres</h4>
+{{ form_row(form.orga) }}
+{{ form_row(form.inscrit) }}
+{{ form_row(form.noninscrit) }}
+{{ form_row(form.passe) }}
+<button type="submit">Rechercher</button>
+{{ form_end(form) }}

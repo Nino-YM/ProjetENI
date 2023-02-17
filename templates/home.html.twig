@@ -3,6 +3,9 @@
 
 {% block body %}
         <h1>Page d'accueil</h1>
+        <div class="col-md-3">
+                {% include 'filter.html.twig' with {form: form} only %}
+        </div>
         <table class="table">
                 <thead>
                 <tr>
@@ -17,27 +20,27 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for info in infos %}
+                {% for activity in activities %}
                         <tr>
-                                <td class="nom">{{ info.nom }}</td>
-                                <td class="dateHeureDebut">{{ info.dateHeureDebut | date('d/m/y  H:i') }}</td>
-                                <td class="dateLimiteInscription">{{ info.dateLimiteInscription | date('d/m/y') }}</td>
-                                <td class="nbInscriptionsMax">{{ info.participants|length }} / {{ info.nbInscriptionsMax }}</td>
-                                <td class="etat">{{ info.etat.libelle }}</td>
+                                <td class="nom">{{ activity.nom }}</td>
+                                <td class="dateHeureDebut">{{ activity.dateHeureDebut | date('d/m/y  H:i') }}</td>
+                                <td class="dateLimiteInscription">{{ activity.dateLimiteInscription | date('d/m/y') }}</td>
+                                <td class="nbInscriptionsMax">{{ activity.participants|length }} / {{ activity.nbInscriptionsMax }}</td>
+                                <td class="etat">{{ activity.etat.libelle }}</td>
                                 <td class="inscrit">
                                         <label>
-                                                <input type="checkbox" class="inscription" disabled {% if app.user is not null and info.participants.contains(app.user) %} checked {% endif %}>
+                                                <input type="checkbox" class="inscription" disabled {% if app.user is not null and activity.participants.contains(app.user) %} checked {% endif %}>
                                         </label>
                                 </td>
-                                <td class="organisateur">{{ info.organiseePar.prenom }} {{ info.organiseePar.nom }}</td>
+                                <td class="organisateur">{{ activity.organiseePar.prenom }} {{ activity.organiseePar.nom }}</td>
                                 <td class="actions">
-                                        {% if info.participants|length < info.nbInscriptionsMax and "now"|date('Y-m-d') < info.dateLimiteInscription|date('Y-m-d') %}
-                                                <a href="{{ path('app_inscription_sortie', {'id': info.id}) }}" class="btn-inscrire">S'inscrire</a>
+                                        {% if activity.participants|length < activity.nbInscriptionsMax and "now"|date('Y-m-d') < activity.dateLimiteInscription|date('Y-m-d') %}
+                                                <a href="{{ path('app_inscription_sortie', {'id': activity.id}) }}" class="btn-inscrire">S'inscrire</a>
                                         {% else %}
                                                 S'inscrire
                                         {% endif %}
-                                        <a href="{{ path('app_detail_sortie', {'id': info.id}) }}" class="btn-afficher">Afficher</a>
-                                        <a href="{{ path('app_desinscription_sortie', {'id': info.id}) }}" class="btn-desister">Se désister</a>
+                                        <a href="{{ path('app_detail_sortie', {'id': activity.id}) }}" class="btn-afficher">Afficher</a>
+                                        <a href="{{ path('app_desinscription_sortie', {'id': activity.id}) }}" class="btn-desister">Se désister</a>
                                         <a href="#" class="btn-modifier">Modifier</a>
                                 </td>
                         </tr>

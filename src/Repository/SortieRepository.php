@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -63,4 +65,36 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findSearch(SearchData $searchData, Participant $user)
+    {
+        $queryBuilder = $this->createQueryBuilder('c');
+        $queryBuilder->leftJoin('c.participants', 'p');
+
+        if (!empty($searchData->inscrit)) {
+            $queryBuilder
+                ->andWhere('p = :user')
+                ->setParameter('user', $user);
+        }
+
+        if (!empty($searchData->noninscrit)) {
+            $queryBuilder
+                ->andWhere($queryBuilder->expr()->notIn('p', ':user'))
+                ->setParameter('user', $user);
+        }
+
+        if (!empty($searchData->q)) {
+            $queryBuilder
+                ->andWhere('c.nom LIKE :q')
+                ->setParameter('q', '%' . $searchData->q . '%');
+        }
+
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+
+
+
+
+
 }
