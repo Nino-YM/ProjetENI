@@ -16,7 +16,7 @@ class ProfilController extends AbstractController
     #[Route('/profil', name: 'app_profil')]
     public function profil(EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
     {
-        $participant = new Participant();
+        $participant = $this->getUser();
 
         /**$participant->setPrenom('Alice');
         $participant->setPseudo(getUser()->getPseudo());
@@ -47,7 +47,8 @@ class ProfilController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
         return $this->render('profil.html.twig', array(
-            'form' => $form->createView()
+            'participant' => $participant,
+            'form' => $form->createView(),
         ));
     }
 
@@ -57,8 +58,7 @@ class ProfilController extends AbstractController
     #[Route('/creation-profil', name: 'app_creation_profil')]
     public function newAction(EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
     {
-        $participant = new Participant();
-        $form = $this->createForm(ParticipantType::class, $participant, [
+        $form = $this->createForm(ParticipantType::class, null, [
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

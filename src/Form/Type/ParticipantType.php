@@ -5,6 +5,7 @@ namespace App\Form\Type;
 use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -36,8 +37,8 @@ class ParticipantType extends AbstractType
                     ]),
                     ]]
                     )
-            ->add('administrateur', IntegerType::class, ['label' => 'Administrateur'])
-            ->add('actif', IntegerType::class, ['label' => 'Actif'])
+            ->add('administrateur', CheckboxType::class, ['label' => 'Administrateur', 'required' => false])
+            ->add('actif', CheckboxType::class, ['label' => 'Actif', 'required' => false])
             ->add('campus', EntityType::class, array(
                 'class' => 'App\Entity\Campus',
                 'choice_label' => 'nom',
